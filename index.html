@@ -1,112 +1,80 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <meta name="google-site-verification" content="YvfIvLYwUp-8q6YSySsEBCG2iuqVcRpz8kEAY4XLDfM" />
   <meta charset="UTF-8">
-  <title>APK Uploader</title>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-storage-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-  <style>
-    body {
-      background: #121212;
-      color: white;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      border: none;
- border-radius: 5px;
-    }
-    input, textarea {
-      background: #1f1f1f;
-      color: white;
-    }
-    button {
-      background: #e74c3c;
-      color: white;
-      cursor: pointer;
-    }
-    .apk-card {
-      background: #1e1e1e;
-      padding: 10px;
-      margin-top: 15px;
-      border-radius: 5px;
-    }
-    a {
-      color: #2ecc71;
-    }
-  </style>
+  <title>Davbot premium</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <h1>📱 Davbot premium </h1>
 
-  <h1>📦 APK Uploader</h1>
+  <div class="app">
+    <img src="https://i.imgur.com/naY3qiQ.jpeg" class="icon">
+    <div class="info">
+      <h2>Davbot app</h2>
+      <p><b>Taille :</b> 14 Mo</p>
+       <p><b>version :</b> 1.0</p>
+      <p><b>Description :</b> Ceci est un application qui permet de faire des recherches avec chatbot, Google , youtube et d'autres petits service </p>
+      <a href="Davbot.apk" class="download">📥 Télécharger APK</a>
+      <div class="screenshots">
+          
+    
+      </div>
+    </div>
+  </div>
 
-  <input type="text" id="appName" placeholder="Nom de l'application" />
-  <textarea id="appDesc" placeholder="Description courte"></textarea>
-  <input type="file" id="apkFile" accept=".apk" />
-  <button onclick="uploadApk()">📤 Uploader</button>
-
-  <h2>📱 Applications disponibles</h2>
-  <div id="apkList"></div>
-
-  <script>
-    // Remplace ici par TA configuration Firebase :
-    const firebaseConfig = {
-      apiKey: "TON_API_KEY",
-      authDomain: "TON_PROJET.firebaseapp.com",
-      projectId: "TON_PROJET",
-      storageBucket: "TON_PROJET.appspot.com",
-      messagingSenderId: "XXXX",
-      appId: "APP_ID"
-    };
-
-    firebase.initializeApp(firebaseConfig);
-    const storage = firebase.storage();
-    const db = firebase.firestore();
-
-    async function uploadApk() {
-      const name = document.getElementById("appName").value.trim();
-const desc = document.getElementById("appDesc").value.trim();
-      const file = document.getElementById("apkFile").files[0];
-
-      if (!name || !file) return alert("Nom et fichier requis.");
-
-      const ref = storage.ref('apks/' + Date.now() + "_" + file.name);
-      const snapshot = await ref.put(file);
-      const url = await snapshot.ref.getDownloadURL();
-
-      await db.collection("apks").add({
-        name,
-        desc,
-        url,
-        createdAt: new Date()
-      });
-
-      alert("APK publié !");
-      document.getElementById("appName").value = "";
-      document.getElementById("appDesc").value = "";
-      document.getElementById("apkFile").value = "";
-      afficherApks();
-    }
-
-    async function afficherApks() {
-      const container = document.getElementById("apkList");
-      container.innerHTML = "";
-      const snap = await db.collection("apks").orderBy("createdAt", "desc").get();
-      snap.forEach(doc => {
-        const data = doc.data();
-        const div = document.createElement("div");
-        div.className = "apk-card";
-        div.innerHTML = `<b>data.name</b><br>${data.desc}<br><a href="${data.url}" download>Télécharger</a>`;
-        container.appendChild(div);
-      });
-    }
-
-    afficherApks();
-  </script>
+  <!-- Tu peux copier-coller ce bloc pour chaque app -->
 
 </body>
 </html>
+<style>
+body {
+  background: #121212;
+  color: white;
+  font-family: sans-serif;
+  padding: 20px;
+}
+h1 {
+  color: #e74c3c;
+  text-align: center;
+}
+.app {
+  display: flex;
+  background: #1f1f1f;
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.icon {
+  width: 100px;
+  height: 100px;
+  margin-right: 15px;
+  border-radius: 15px;
+}
+.info {
+  flex: 1;
+}
+.download {
+  display: inline-block;
+  margin-top: 10px;
+  background: #e74c3c;
+  padding: 10px 15px;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+}
+.screenshots {
+  margin-top: 15px;
+}
+.screenshots img {
+  width: 120px;
+  height: auto;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+</style>
