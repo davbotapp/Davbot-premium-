@@ -1,0 +1,16 @@
+[
+  {
+    "id": "davbot",
+    "name": "Davbot App",
+    "desc": "Assistant intelligent basé sur l’IA",
+    "icon": "https://i.ibb.co/Jw2d9cnB/file-0000000053407243a5b64af51ceba4aa.png",
+    "apk": "uploads/Davbot.apk"
+  },
+  {
+    "id": "telegram",
+    "name": "Telegram FOSS",
+    "desc": "Messagerie sécurisée",
+    "icon": "https://raw.githubusercontent.com/Telegram-FOSS-Team/Telegram-FOSS/master/fastlane/metadata/android/en-US/images/icon.png",
+    "apk": "uploads/Telegram.apk"
+  }
+]
