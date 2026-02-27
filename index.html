@@ -1,285 +1,224 @@
-
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Davbot APK Store</title>
- <meta name="google-site-verification" content="YvfIvLYwUp-8q6YSySsEBCG2iuqVcRpz8kEAY4XLDfM" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="icon" href="https://i.imgur.com/naY3qiQ.jpeg">
+<title>Davbot APK Store</title>
 
 <style>
-*{box-sizing:border-box;font-family:Arial}
-body{margin:0;background:linear-gradient(135deg,#081a2f,#0b3c66,#0f5fa5);color:#fff}
-header{text-align:center;padding:20px;background:rgba(0,0,0,.4)}
-.container{max-width:1200px;margin:auto;padding:20px}
-.card{background:#081a2a;border-radius:18px;padding:20px;margin-bottom:25px;box-shadow:0 15px 35px rgba(0,0,0,.6)}
-.app{display:flex;gap:20px;flex-wrap:wrap;align-items:center}
-.icon{width:90px;height:90px;border-radius:18px;border:3px solid #4da3ff}
-.btn{padding:10px 18px;border:none;border-radius:10px;background:#1e90ff;color:#fff;font-weight:bold;cursor:pointer;margin:5px}
-input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none}
-.hidden{display:none}
-.stars{color:gold;font-size:18px}
-.desc{opacity:.9;margin:8px 0}
-.balance{background:#123d66;padding:15px;border-radius:15px;text-align:center;font-size:18px;margin:15px 0;animation:pulse 2s infinite}
-@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
-table{width:100%;border-collapse:collapse}
-th,td{padding:10px;border-bottom:1px solid #4da3ff;text-align:center}
-.flash{animation:flash 1s}
-@keyframes flash{0%{background:#1e90ff}100%{background:transparent}}
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Orbitron',sans-serif}
+
+body{
+  background:#020617;
+  color:#fff;
+}
+
+header{
+  text-align:center;
+  padding:30px;
+  text-shadow:0 0 10px #1e90ff;
+}
+
+h1{
+  color:#4da3ff;
+  text-shadow:0 0 20px #1e90ff, 0 0 40px #00f, 0 0 60px #0ff;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+.search{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid #1e90ff55;
+  background:#020617;
+  color:#fff;
+  margin-bottom:20px;
+  box-shadow:0 0 10px #1e90ff;
+}
+
+.card{
+  background:#020617;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:25px;
+  box-shadow:0 0 25px #1e90ff33, 0 0 40px #00f22;
+  transition:0.3s;
+}
+.card:hover{
+  box-shadow:0 0 30px #1e90ff66, 0 0 50px #00f66;
+}
+
+.app{
+  display:flex;
+  gap:20px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.icon{
+  width:90px;
+  height:90px;
+  border-radius:20px;
+  border:2px solid #1e90ff;
+  box-shadow:0 0 20px #1e90ff;
+}
+
+.btn{
+  padding:12px 20px;
+  border-radius:14px;
+  background:#020617;
+  color:#4da3ff;
+  border:1px solid #1e90ff;
+  cursor:pointer;
+  margin-top:10px;
+  transition:0.2s;
+}
+.btn:hover{
+  background:#1e90ff;
+  color:#fff;
+  box-shadow:0 0 20px #1e90ff,0 0 30px #00f;
+}
+
+.stars{
+  color:gold;
+  margin:6px 0;
+}
+.desc{
+  opacity:.8;
+  margin-bottom:8px;
+}
+
+.popup{
+  position:fixed;
+  inset:0;
+  background:#0009;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.modal{
+  background:#020617;
+  padding:25px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 0 35px #1e90ff,0 0 50px #00f;
+}
+.hidden{
+  display:none;
+}
 </style>
 </head>
 
-<body onload="init()">
+<body>
 
 <header>
-<h1>📦 Davbot APK Store</h1>
-<p id="hello"></p>
-<button class="btn hidden" id="logoutBtn" onclick="logout()">Déconnexion</button>
+<h1>⚡ Davbot APK Store</h1>
 </header>
 
 <div class="container">
-
-<!-- AUTH -->
-<div id="auth" class="card">
-<h2>Créer / Se connecter</h2>
-<input id="name" placeholder="Nom">
-<input id="email" placeholder="Email">
-<input id="pass" type="password" placeholder="Mot de passe">
-<button class="btn" onclick="register()">Créer un compte</button>
-<button class="btn" onclick="login()">Connexion</button>
-</div>
-
-<!-- APPS -->
+<input class="search" placeholder="🔎 Rechercher..." oninput="searchApps(this.value)">
 <div id="apps"></div>
-
-<!-- DASHBOARD -->
-<div id="dashboard" class="card hidden">
-<h2>📊 Tableau de bord</h2>
-<div class="balance" id="balance">💳 Carte bancaire : 0 $</div>
-<button class="btn" onclick="withdraw()">💸 Récupérer l'argent</button>
-
-<table>
-<thead>
-<tr><th>Application</th><th>Téléchargements</th><th>Gain / 48h</th></tr>
-</thead>
-<tbody id="dashTable"></tbody>
-</table>
 </div>
 
+<div id="popup" class="popup hidden">
+ <div class="modal">
+  <h3 id="popupText">Télécharger ?</h3>
+  <br>
+  <button class="btn" id="yesBtn">Oui</button>
+  <button class="btn" onclick="closePopup()">Annuler</button>
+ </div>
 </div>
 
 <script>
-/* ===== Utils ===== */
-const hash=s=>btoa(s.split("").reverse().join(""));
-const getUser=()=>JSON.parse(localStorage.getItem("user"));
-const saveUser=u=>localStorage.setItem("user",JSON.stringify(u));
-const logout=()=>{localStorage.clear();location.reload();};
-
-/* ===== Applications ===== */
+// Liste des applications
 const APPS=[
-{
- id:"davbot",
- name:"Davbot App",
- icon:"https://i.ibb.co/Jw2d9cnB/file-0000000053407243a5b64af51ceba4aa.png",
- desc:"Assistant intelligent basé sur l’IA. Discussions, aide, automatisation et réponses rapides.", apk:"https://github.com/davbotapp/Davbot-premium-/raw/main/Davbot.apk ",
- stars:5,
- gain:5,
- pass:hash("davbot2025")
-},
-{
- id:"telegram",
- name:"Telegram FOSS",
- icon:"https://raw.githubusercontent.com/Telegram-FOSS-Team/Telegram-FOSS/master/fastlane/metadata/android/en-US/images/icon.png",
- desc:"Version open‑source de Telegram. Messagerie rapide, sécurisée et sans trackers.",
- apk:"https://github.com/Telegram-FOSS-Team/Telegram-FOSS/releases/latest/download/app-arm64-v8a-release.apk",
- stars:5,
- gain:4,
- pass:hash("telegram")
-},
-
-{
- id:"termux",
- name:"Termux",
- icon:"https://raw.githubusercontent.com/termux/termux-app/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
- desc:"Terminal Linux puissant sur Android. Développement, scripts et serveurs.",
- apk:"https://github.com/termux/termux-app/releases/latest/download/app-release.apk",
- stars:5,
- gain:6,
- pass:hash("termux")
-},
-{
- id:"signal",
- name:"Signal",
- desc:"Messagerie privée avec chiffrement de bout en bout.",
- icon:"https://signal.org/assets/images/header/logo.png",
- apk:"https://github.com/signalapp/Signal-Android/releases/latest/download/Signal-Android.apk",
- stars:5,
- gain:4,
- pass:hash("signal123")
-},
-{
- id:"vlc",
- name:"VLC Android",
- desc:"Lecteur multimédia puissant et universel.",
- icon:"https://raw.githubusercontent.com/videolan/vlc-android/master/application/resources/assets/images/icon.png",
- apk:"https://github.com/videolan/vlc-android/releases/latest/download/vlc-android.apk",
- stars:4,
- gain:3,
- pass:hash("vlc123")
-},
-{
- id:"hatunnel",
- name:"HA Tunnel",
- desc:"Application tunnel pour VPN, SSH et connexions sécurisées.",
- icon:"https://i.imgur.com/sfiqeZ3.jpeg",
- apk:"#",
- stars:4,
- gain:4,
- pass:hash("hatunnel123")
-},
-{
- id:"socksip",
- name:"SocksIP Tunnel",
- desc:"Tunnel VPN basé sur SSH et Socks pour internet gratuit.",
- icon:"https://i.imgur.com/JCXiqOf.jpeg",
- apk:"#",
- stars:4,
- gain:4,
- pass:hash("socksip123")
-},
-
-{
- id:"napsternet",
- name:"NapsternetV",
- desc:"Client VPN open‑source basé sur V2Ray et SSH.",
- icon:"https://raw.githubusercontent.com/napsternetv/napsternetv/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
- apk:"https://github.com/napsternetv/napsternetv/releases/latest/download/app-release.apk",
- stars:5,
- gain:6,
- pass:hash("napster123")
-},
-
+  {
+    id:"davbot",
+    name:"Davbot App",
+    icon:"https://i.ibb.co/Jw2d9cnB/file-0000000053407243a5b64af51ceba4aa.png",
+    desc:"Assistant intelligent basé sur l’IA.",
+    apk:"https://github.com/davbotapp/Davbot-premium-/releases/latest/download/Davbot.apk",
+    stars:5
+  },
+  {
+    id:"telegram",
+    name:"Telegram FOSS",
+    icon:"https://raw.githubusercontent.com/Telegram-FOSS-Team/Telegram-FOSS/master/fastlane/metadata/android/en-US/images/icon.png",
+    desc:"Messagerie sécurisée.",
+    apk:"https://github.com/Telegram-FOSS-Team/Telegram-FOSS/releases/latest/download/app-arm64-v8a-release.apk",
+    stars:5
+  }
 ];
 
-/* ===== INIT ===== */
-function init(){
- renderApps();
- checkLogin();
- setInterval(updateGains,60000);
+let currentApp=null;
+
+// Affiche toutes les apps
+function renderApps(list=APPS){
+  const box=document.getElementById("apps");
+  box.innerHTML="";
+  list.forEach(app=>{
+    const dlCount = localStorage.getItem("dl_"+app.id)||0;
+    box.innerHTML+=`
+    <div class="card">
+      <div class="app">
+        <img src="${app.icon}" class="icon">
+        <div>
+          <h2>${app.name}</h2>
+          <div class="stars">${"★".repeat(app.stars)}</div>
+          <p class="desc">${app.desc}</p>
+          <p>📥 ${dlCount} téléchargements</p>
+          <button class="btn" onclick="openPopup('${app.id}')">Télécharger</button>
+        </div>
+      </div>
+    </div>
+    `;
+  });
 }
 
-/* ===== Auth ===== */
-function register(){
- const nameVal=document.getElementById("name").value.trim();
- const emailVal=document.getElementById("email").value.trim();
- const passVal=document.getElementById("pass").value.trim();
- if(!nameVal||!emailVal||!passVal) return alert("Remplis tous les champs");
- saveUser({name:nameVal,email:emailVal,pass:hash(passVal),balance:0,lastGain:Date.now()});
- location.reload();
-}
-function login(){
- const emailVal=document.getElementById("email").value.trim();
- const passVal=document.getElementById("pass").value.trim();
- const u=getUser();
- if(!u||u.email!==emailVal||u.pass!==hash(passVal))
- return alert("Email ou mot de passe incorrect");
- location.reload();
-}
-function checkLogin(){
- const u=getUser();
- if(!u) return;
- document.getElementById("auth").classList.add("hidden");
- document.getElementById("logoutBtn").classList.remove("hidden");
- document.getElementById("hello").innerText=(new Date().getHours()<18?"Bonjour ":"Bonsoir ")+u.name;
- updateDashboard();
+// Recherche
+function searchApps(q){
+  q=q.toLowerCase();
+  renderApps(APPS.filter(a=>a.name.toLowerCase().includes(q)));
 }
 
-/* ===== Render Apps ===== */
-function renderApps(){
- const box=document.getElementById("apps"); box.innerHTML="";
- const u=getUser();
- APPS.forEach(a=>{
- const dl=localStorage.getItem("dl_"+a.id)||0;
- box.innerHTML+=`
- <div class="card">
-  <div class="app">
-   <img src="${a.icon}" class="icon" alt="${a.name}">
-   <div>
-    <h2>${a.name}</h2>
-    <div class="stars">${"★".repeat(a.stars)}</div>
-    <p class="desc">${a.desc}</p>
-    <p>Téléchargements : ${dl}</p>
-    <a class="btn" href="${a.apk}" onclick="download('${a.id}')">Télécharger APK</a>
-    ${u?`<button class="btn" onclick="monetize('${a.id}')">Monétiser</button>`:""}
-   </div>
-  </div>
- </div>`;
- });
+// Ouvre le popup
+function openPopup(id){
+  currentApp=APPS.find(a=>a.id===id);
+  if(!currentApp) return;
+  document.getElementById("popupText").innerText="Télécharger "+currentApp.name+" ?";
+  document.getElementById("popup").classList.remove("hidden");
 }
 
-function download(id){
- let v=Number(localStorage.getItem("dl_"+id)||0)+1;
- localStorage.setItem("dl_"+id,v);
+// Ferme popup
+function closePopup(){
+  document.getElementById("popup").classList.add("hidden");
 }
 
-/* ===== Monetization ===== */
-function monetize(id){
- const app=APPS.find(a=>a.id===id);
- const p=prompt("Mot de passe de l'application");
- if(!p||hash(p)!==app.pass) return alert("Mot de passe incorrect");
- localStorage.setItem("mon_"+id,"1");
- updateDashboard();
-}
+// Téléchargement via bouton Oui
+document.getElementById("yesBtn").addEventListener("click",()=>{
+  if(!currentApp) return;
 
-/* ===== Dashboard ===== */
-function updateDashboard(){
- const u=getUser(); if(!u) return;
- document.getElementById("dashboard").classList.remove("hidden");
- document.getElementById("balance").innerText="💳 Carte bancaire : "+u.balance+" $";
- const t=document.getElementById("dashTable"); t.innerHTML="";
- APPS.forEach(a=>{
- if(localStorage.getItem("mon_"+a.id)){
- t.innerHTML+=`
- <tr class="flash">
-  <td>⚡ ${a.name}</td>
-  <td>${localStorage.getItem("dl_"+a.id)||0}</td>
-  <td>${a.gain} $ / 48h</td>
- </tr>`;
- }
- });
-}
+  closePopup();
 
-/* ===== Gains ===== */
-function updateGains(){
- const u=getUser(); if(!u) return;
- const TWO_DAYS=172800000;
- if(Date.now()-u.lastGain<TWO_DAYS) return;
- APPS.forEach(a=>{
- if(localStorage.getItem("mon_"+a.id)) u.balance+=a.gain;
- });
- u.lastGain=Date.now();
- saveUser(u);
- updateDashboard();
-}
+  // Compteur téléchargements
+  let count = Number(localStorage.getItem("dl_"+currentApp.id)||0)+1;
+  localStorage.setItem("dl_"+currentApp.id,count);
+  renderApps();
 
-/* ===== Withdraw ===== */
-function withdraw(){
- const u=getUser();
- if(u.balance<=0) return alert("Solde insuffisant");
- alert("Demande de retrait envoyée ✔");
- u.balance=0;
- saveUser(u);
- updateDashboard();
-}
+  // Ouvre le lien dans nouvel onglet (fonctionne sur Android)
+  window.open(currentApp.apk,"_blank");
+});
+
+// Affiche les apps au chargement
+renderApps();
 </script>
 
 </body>
 </html>
-
-
-
-
-
-
