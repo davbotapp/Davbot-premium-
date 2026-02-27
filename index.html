@@ -4,8 +4,118 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Davbot APK Store</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Orbitron',sans-serif}
+
+body{
+  background:#020617;
+  color:#fff;
+}
+
+header{
+  text-align:center;
+  padding:30px;
+  text-shadow:0 0 10px #1e90ff;
+}
+
+h1{
+  color:#4da3ff;
+  text-shadow:0 0 20px #1e90ff, 0 0 40px #00f, 0 0 60px #0ff;
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:20px;
+}
+
+.search{
+  width:100%;
+  padding:14px;
+  border-radius:14px;
+  border:1px solid #1e90ff55;
+  background:#020617;
+  color:#fff;
+  margin-bottom:20px;
+  box-shadow:0 0 10px #1e90ff;
+}
+
+.card{
+  background:#020617;
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:25px;
+  box-shadow:0 0 25px #1e90ff33, 0 0 40px #00f22;
+  transition:0.3s;
+}
+.card:hover{
+  box-shadow:0 0 30px #1e90ff66, 0 0 50px #00f66;
+}
+
+.app{
+  display:flex;
+  gap:20px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.icon{
+  width:90px;
+  height:90px;
+  border-radius:20px;
+  border:2px solid #1e90ff;
+  box-shadow:0 0 20px #1e90ff;
+}
+
+.btn{
+  padding:12px 20px;
+  border-radius:14px;
+  background:#020617;
+  color:#4da3ff;
+  border:1px solid #1e90ff;
+  cursor:pointer;
+  margin-top:10px;
+  transition:0.2s;
+}
+.btn:hover{
+  background:#1e90ff;
+  color:#fff;
+  box-shadow:0 0 20px #1e90ff,0 0 30px #00f;
+}
+
+.stars{
+  color:gold;
+  margin:6px 0;
+}
+.desc{
+  opacity:.8;
+  margin-bottom:8px;
+}
+
+.popup{
+  position:fixed;
+  inset:0;
+  background:#0009;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.modal{
+  background:#020617;
+  padding:25px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 0 35px #1e90ff,0 0 50px #00f;
+}
+.hidden{
+  display:none;
+}
+</style>
 </head>
+
 <body>
 
 <header>
@@ -17,30 +127,59 @@
 <div id="apps"></div>
 </div>
 
-<script>
-// Charge la liste des apps depuis apps.json
-let APPS = [];
-fetch('apps.json')
-.then(res=>res.json())
-.then(data=>{
-  APPS = data;
-  renderApps();
-});
+<div id="popup" class="popup hidden">
+ <div class="modal">
+  <h3 id="popupText">Télécharger ?</h3>
+  <br>
+  <button class="btn" id="yesBtn">Oui</button>
+  <button class="btn" onclick="closePopup()">Annuler</button>
+ 
+ </div>
+</div>
 
-// Fonction affichage des apps
+<script>
+// Liste des applications
+const APPS=[
+  {
+    id:"davbot",
+    name:"Davbot App",
+    icon:"https://i.ibb.co/Jw2d9cnB/file-0000000053407243a5b64af51ceba4aa.png",
+    desc:"Assistant intelligent basé sur l’IA.",
+    apk:"https://github.com/davbotapp/Davbot-premium-/raw/main/uploads/Davbot%20app.apk",
+    stars:5
+  },
+  {
+    id:"telegram",
+    name:"Telegram FOSS",
+    icon:"https://raw.githubusercontent.com/Telegram-FOSS-Team/Telegram-FOSS/master/fastlane/metadata/android/en-US/images/icon.png",
+    desc:"Messagerie sécurisée.",
+    apk:"https://github.com/Telegram-FOSS-Team/Telegram-FOSS/releases/latest/download/app-arm64-v8a-release.apk",
+    stars:5
+  }
+];
+
+let currentApp=null;
+
+// Affiche toutes les apps
 function renderApps(list=APPS){
-  const box = document.getElementById("apps");
-  box.innerHTML = "";
+  const box=document.getElementById("apps");
+  box.innerHTML="";
   list.forEach(app=>{
-    const dl = localStorage.getItem("dl_"+app.id)||0;
-    box.innerHTML += `
+    const dlCount = localStorage.getItem("dl_"+app.id)||0;
+    box.innerHTML+=`
     <div class="card">
-      <img src="${app.icon}" class="icon">
-      <h2>${app.name}</h2>
-      <p>${app.desc}</p>
-      <p>📥 ${dl} téléchargements</p>
-      <button class="btn" onclick="downloadApp('${app.id}')">Télécharger</button>
-    </div>`;
+      <div class="app">
+        <img src="${app.icon}" class="icon">
+        <div>
+          <h2>${app.name}</h2>
+          <div class="stars">${"★".repeat(app.stars)}</div>
+          <p class="desc">${app.desc}</p>
+          <p>📥 ${dlCount} téléchargements</p>
+          <button class="btn" onclick="openPopup('${app.id}')">Télécharger</button>
+        </div>
+      </div>
+    </div>
+    `;
   });
 }
 
@@ -50,19 +189,37 @@ function searchApps(q){
   renderApps(APPS.filter(a=>a.name.toLowerCase().includes(q)));
 }
 
-// Téléchargement
-function downloadApp(id){
-  const app = APPS.find(a=>a.id===id);
-  if(!app) return;
+// Ouvre le popup
+function openPopup(id){
+  currentApp=APPS.find(a=>a.id===id);
+  if(!currentApp) return;
+  document.getElementById("popupText").innerText="Télécharger "+currentApp.name+" ?";
+  document.getElementById("popup").classList.remove("hidden");
+}
 
-  // compteur
-  let count = Number(localStorage.getItem("dl_"+id)||0)+1;
-  localStorage.setItem("dl_"+id,count);
+// Ferme popup
+function closePopup(){
+  document.getElementById("popup").classList.add("hidden");
+}
+
+// Téléchargement via bouton Oui
+document.getElementById("yesBtn").addEventListener("click",()=>{
+  if(!currentApp) return;
+
+  closePopup();
+
+  // Compteur téléchargements
+  let count = Number(localStorage.getItem("dl_"+currentApp.id)||0)+1;
+  localStorage.setItem("dl_"+currentApp.id,count);
   renderApps();
 
-  // téléchargement
-  window.open(app.apk,"_blank");
-}
+  // Ouvre le lien dans nouvel onglet (fonctionne sur Android)
+  window.open(currentApp.apk,"_blank");
+});
+
+// Affiche les apps au chargement
+renderApps();
 </script>
+
 </body>
 </html>
