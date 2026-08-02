@@ -1,234 +1,235 @@
 
+    // ==========================================
+// ⚡ DAVBOT APK STORE PRO
+// APP.JS
+// SaaS 3D BLUE BLACK GOLD
+// Sans Firebase
 // ==========================================
-// ⚡ DAVBOT APK STORE PREMIUM
-// APP.JS P1
-// Firebase + Chargement Applications
-// ==========================================
 
 
 
-// ================= FIREBASE =================
+// ================= APPLICATIONS =================
 
 
-import {
+let APPS = [
 
-initializeApp
 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+{
+id:1,
 
+name:"DAVBOT AI",
 
-import {
+icon:"https://i.ibb.co/chckV4z9/Dav-Bot-IA-128x128-4ko.webp",
 
-getDatabase,
-ref,
-onValue,
-update,
-get
+developer:"David Mpongo",
 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+category:"IA",
 
+version:"3.0",
 
+size:"1 MB",
 
+downloads:3,2k,
 
-// ================= CONFIG FIREBASE =================
+stars:5,
 
-const firebaseConfig = {
+vip:true,
 
-apiKey:"AIzaSyA24pBo8mB8WiZssPtep--MMBdB7c8_Lu4U",
+description:
+"Assistant IA intelligent avec génération de texte, images et outils avancés.",
 
-authDomain:"starlink-investit.firebaseapp.com",
+apk:"#"
 
-databaseURL:"https://starlink-investit-default-rtdb.firebaseio.com",
+},
 
-projectId:"starlink-investit",
 
-storageBucket:"starlink-investit.appspot.com",
 
-};
-// ================= INITIALISATION =================
+{
+id:2,
 
+name:"DAVBOT VPN",
 
-const firebaseApp = initializeApp(firebaseConfig);
+icon:"https://i.ibb.co/4ZLPR3CJ/logo-reduit-56ko.webp",
 
+developer:"DAVBOT",
 
-const db = getDatabase(firebaseApp);
+category:"VPN",
 
+version:"2.5",
 
+size:"4 MB",
 
+downloads:18k,
 
+stars:5,
 
+vip:true,
 
-// ================= VARIABLES =================
+description:
+"VPN rapide et sécurisé avec technologie nouvelle génération.",
 
+apk:"#"
 
-let APPS = [];
+},
 
-let currentApp = null;
 
-let currentList = [];
 
+{
+id:3,
 
+name:"DAVBOT GAMES",
 
+icon:"https://cdn-icons-png.flaticon.com/512/686/686589.png",
 
+developer:"DAVBOT Studio",
 
+category:"Jeux",
 
+version:"1.5",
 
-// ================= CHARGER LES APK =================
+size:"120 MB",
 
+downloads:9500,
 
-function loadApps(){
+stars:4,
 
+vip:false,
 
+description:
+"Collection de jeux Android divertissants.",
 
-const box = document.getElementById("apps");
+apk:"#"
 
+},
 
 
-if(!box) return;
 
+{
+id:4,
 
+name:"DAVBOT TOOLS",
 
+icon:"https://cdn-icons-png.flaticon.com/512/2919/2919592.png",
 
-onValue(
+developer:"DAVBOT",
 
-ref(db,"apps"),
+category:"Outils",
 
-(snapshot)=>{
+version:"1.0",
 
+size:"30 MB",
 
-APPS=[];
+downloads:7000,
 
+stars:5,
 
+vip:false,
 
-snapshot.forEach((item)=>{
+description:
+"Une suite d'outils puissants pour Android.",
 
-
-APPS.push({
-
-id:item.key,
-
-...item.val()
-
-});
-
-
-});
-
-
-
-
-
-currentList = APPS;
-
-
-
-renderApps(APPS);
-
-
+apk:"#"
 
 }
 
-);
 
-
-
-}
-
+];
 
 
 
 
 
 
-// ================= DEMARRAGE =================
+// ================= ELEMENTS =================
+
+
+const appsBox =
+document.getElementById("apps");
+
+
+const search =
+document.getElementById("search");
+
+
+const bar =
+document.getElementById("bar");
+
+
+const downloadBox =
+document.getElementById("downloadBox");
+
+
+const downloadText =
+document.getElementById("downloadText");
 
 
 
-window.addEventListener(
-
-"DOMContentLoaded",
-
-()=>{
-
-
-loadApps();
 
 
 
-}
 
-);
-
-// ==========================================
-// ⚡ DAVBOT APK STORE PREMIUM
-// APP.JS P2
-// Affichage + Recherche + Catégories
-// ==========================================
-
-
-
-// ================= AFFICHAGE APPLICATIONS =================
+// ================= AFFICHAGE =================
 
 
 function renderApps(list){
 
 
-
-const box = document.getElementById("apps");
-
-
-
-if(!box) return;
-
-
-
-box.innerHTML = "";
-
+appsBox.innerHTML="";
 
 
 
 list.forEach(app=>{
 
 
-
-box.innerHTML += `
+appsBox.innerHTML += `
 
 
 <div class="app-card">
 
 
+<img class="app-icon"
 
-<div class="app-top">
-
-
-
-<img
-
-src="${app.icon}"
-
-class="app-icon">
+src="${app.icon}">
 
 
 
-<div>
-
-
-<h3>
+<h2 class="app-name">
 
 ${app.name}
 
-</h3>
+${app.vip ? " 👑":""}
+
+</h2>
+
 
 
 
 <p class="dev">
 
-👨‍💻 ${app.developer || "Davbot"}
+👨‍💻 ${app.developer}
 
 </p>
 
 
-</div>
+
+
+
+<div class="info">
+
+
+<span>
+
+📥 ${app.downloads}
+
+</span>
+
+
+
+<span>
+
+📦 ${app.size}
+
+</span>
 
 
 </div>
@@ -237,13 +238,25 @@ ${app.name}
 
 
 
+<div class="info">
 
-<div class="stars">
 
-${"★".repeat(app.stars || 5)}
+<span>
+
+⭐ ${app.stars}/5
+
+</span>
+
+
+
+<span class="badge">
+
+${app.category}
+
+</span>
+
 
 </div>
-
 
 
 
@@ -251,7 +264,7 @@ ${"★".repeat(app.stars || 5)}
 
 <p class="description">
 
-${app.desc || app.description || "Application Android premium"}
+${app.description}
 
 </p>
 
@@ -259,76 +272,19 @@ ${app.desc || app.description || "Application Android premium"}
 
 
 
+<button class="download-btn"
+
+onclick="downloadAPK(${app.id})">
 
 
-<div class="badges">
-
-
-
-<span>
-
-${app.version || "1.0"}
-
-</span>
-
-
-
-<span>
-
-${app.size || "0 MB"}
-
-</span>
-
-
-
-<span>
-
-${app.category || "APK"}
-
-</span>
-
-
-
-</div>
-
-
-
-
-
-
-
-<p class="downloads">
-
-
-📥 ${app.downloads || 0} téléchargements
-
-
-</p>
-
-
-
-
-
-
-
-<button
-
-class="download-btn"
-
-onclick="downloadAPK('${app.id}')">
-
-
-📲 Télécharger
+⬇ Télécharger
 
 
 </button>
 
 
 
-
-
 </div>
-
 
 
 `;
@@ -346,35 +302,20 @@ onclick="downloadAPK('${app.id}')">
 
 
 
-
 // ================= RECHERCHE =================
 
 
 
-const search = document.getElementById("search");
+search.addEventListener("input",()=>{
 
 
-
-if(search){
-
-
-
-search.addEventListener(
-
-"input",
-
-()=>{
-
-
-const value =
-
+let value =
 search.value.toLowerCase();
 
 
 
-
-
-const result = APPS.filter(app=>
+let result =
+APPS.filter(app=>
 
 
 app.name
@@ -392,14 +333,7 @@ renderApps(result);
 
 
 
-}
-
-
-
-);
-
-
-}
+});
 
 
 
@@ -418,8 +352,7 @@ document
 .forEach(button=>{
 
 
-button.onclick = ()=>{
-
+button.onclick=()=>{
 
 
 document
@@ -428,11 +361,11 @@ document
 
 .forEach(btn=>{
 
+
 btn.classList.remove("active");
 
+
 });
-
-
 
 
 
@@ -440,16 +373,12 @@ button.classList.add("active");
 
 
 
-
-
-const category = button.innerText;
-
-
+let cat =
+button.innerText;
 
 
 
-
-if(category==="Tous"){
+if(cat==="Tous"){
 
 
 renderApps(APPS);
@@ -462,18 +391,13 @@ else{
 
 renderApps(
 
-
 APPS.filter(app=>
 
-
-app.category === category
-
+app.category===cat
 
 )
 
-
 );
-
 
 
 }
@@ -486,70 +410,118 @@ app.category === category
 
 });
 
-// ==========================================
-// ⚡ DAVBOT APK STORE PREMIUM
-// APP.JS P3
-// Download + Compteur Firebase
-// ==========================================
-
-
-
-// ================= TELECHARGEMENT APK =================
-
-
-window.downloadAPK = async function(id){
-
-
-
-const app = APPS.find(a=>a.id === id);
-
-
-
-if(!app)
-return;
-
-
-
-currentApp = app;
 
 
 
 
-// Ajouter +1 téléchargement
-
-
-const oldCount = Number(app.downloads || 0);
 
 
 
-await update(
+// ================= TELECHARGEMENT =================
 
-ref(db,"apps/"+id),
 
-{
 
-downloads: oldCount + 1
+window.downloadAPK=function(id){
+
+
+
+let app =
+
+APPS.find(a=>a.id===id);
+
+
+
+if(!app)return;
+
+
+
+
+
+downloadBox.style.display="block";
+
+
+
+let progress=0;
+
+
+
+bar.style.width="0%";
+
+
+
+downloadText.innerHTML=
+
+"Connexion au serveur...";
+
+
+
+
+
+
+
+let timer=setInterval(()=>{
+
+
+progress +=10;
+
+
+
+bar.style.width=
+
+progress+"%";
+
+
+
+
+if(progress===30){
+
+
+downloadText.innerHTML=
+
+"⬇ Téléchargement de "+app.name;
+
 
 }
 
-);
+
+
+if(progress===70){
+
+
+downloadText.innerHTML=
+
+"⚡ Optimisation APK...";
+
+
+}
 
 
 
-
-// Ouvrir APK GitHub
-
-
-if(app.apk && app.apk !== "#"){
+if(progress>=100){
 
 
-window.open(
 
-app.apk,
+clearInterval(timer);
 
-"_blank"
 
-);
+
+downloadText.innerHTML=
+
+"✅ Installation prête !";
+
+
+
+app.downloads++;
+
+
+
+setTimeout(()=>{
+
+
+if(app.apk!=="#"){
+
+
+window.open(app.apk,"_blank");
 
 
 }
@@ -559,7 +531,7 @@ else{
 
 alert(
 
-"APK non disponible"
+"APK bientôt disponible"
 
 );
 
@@ -568,108 +540,37 @@ alert(
 
 
 
+downloadBox.style.display="none";
 
-};
 
+},1200);
 
-
-
-
-
-
-
-
-// ================= POPUP DETAILS =================
-
-
-
-window.openDetails = function(id){
-
-
-
-const app = APPS.find(a=>a.id===id);
-
-
-
-if(!app)
-return;
-
-
-
-currentApp = app;
-
-
-
-document.getElementById("detailIcon").src = app.icon;
-
-
-document.getElementById("detailName").innerText = app.name;
-
-
-document.getElementById("detailDesc").innerText = app.desc || app.description;
-
-
-document.getElementById("detailVersion").innerText =
-
-"Version : "+app.version;
-
-
-
-document.getElementById("detailSize").innerText =
-
-"Taille : "+app.size;
-
-
-
-document.getElementById("detailCategory").innerText =
-
-app.category;
-
-
-
-document
-
-.getElementById("detailsModal")
-
-.classList.remove("hidden");
-
-
-
-};
-
-
-
-
-
-
-
-// ================= BOUTON DOWNLOAD POPUP =================
-
-
-
-const detailBtn = document.getElementById("detailDownload");
-
-
-
-if(detailBtn){
-
-
-
-detailBtn.onclick = ()=>{
-
-
-if(currentApp){
-
-
-downloadAPK(currentApp.id);
 
 
 }
 
 
 
+},300);
+
+
+
 };
 
 
 
-}
+
+
+
+// ================= START =================
+
+
+renderApps(APPS);
+
+
+
+console.log(
+
+"⚡ DAVBOT APK STORE PRO chargé"
+
+);
