@@ -1,184 +1,267 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 
 <head>
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<title>⚡ Davbot APK Store Premium</title>
-
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-
+<title>DAVBOT APK STORE PRO</title>
 
 
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
 
 *{
-
 margin:0;
-
 padding:0;
-
 box-sizing:border-box;
-
 font-family:Poppins,sans-serif;
-
 }
-
 
 
 body{
 
-
 background:
-
-radial-gradient(circle at top,#123b78,#020617 50%);
-
+radial-gradient(circle at top,#003cff55,transparent 35%),
+linear-gradient(135deg,#020617,#000);
 
 color:white;
-
 min-height:100vh;
 
+overflow-x:hidden;
 
 }
 
 
 
+/* BACKGROUND EFFECT */
 
 
-/* ================= HEADER ================= */
-
-
-header{
-
-
-padding:35px 20px;
-
-
-text-align:center;
-
-
-overflow:hidden;
-
-
-position:relative;
-
-
-}
-
-
-
-header:before{
-
+body::before{
 
 content:"";
 
+position:fixed;
 
-position:absolute;
+width:400px;
+height:400px;
 
+background:#006eff;
 
-width:300px;
+filter:blur(150px);
 
-height:300px;
+opacity:.25;
 
+top:-100px;
+left:-100px;
 
-background:#1e90ff;
-
-
-filter:blur(120px);
-
-
-top:-150px;
-
-
-left:50%;
-
-
-transform:translateX(-50%);
-
-
-opacity:.5;
-
+z-index:-1;
 
 }
 
 
+
+
+
+/* HEADER SAAS */
+
+
+.header{
+
+
+padding:30px 20px;
+
+text-align:center;
+
+background:
+
+rgba(255,255,255,.05);
+
+backdrop-filter:blur(20px);
+
+border-bottom:
+
+1px solid #ffffff20;
+
+
+}
 
 
 
 .logo{
 
 
-position:relative;
+font-size:35px;
+
+font-weight:900;
 
 
-font-size:38px;
+background:
 
+linear-gradient(90deg,#00c8ff,#ffd700);
+
+
+-webkit-background-clip:text;
+
+color:transparent;
+
+
+text-shadow:
+
+0 0 30px #008cff;
+
+
+}
+
+
+
+.subtitle{
+
+color:#aaa;
+
+margin-top:10px;
+
+}
+
+
+
+
+.search-box{
+
+
+margin-top:25px;
+
+}
+
+
+
+#search{
+
+
+width:90%;
+
+max-width:500px;
+
+padding:16px 25px;
+
+border-radius:50px;
+
+border:none;
+
+outline:none;
+
+background:#050b1c;
+
+color:white;
+
+font-size:16px;
+
+
+box-shadow:
+
+0 0 25px #006eff88;
+
+
+}
+
+
+
+
+
+
+/* MENU */
+
+
+.menu{
+
+
+display:flex;
+
+gap:12px;
+
+padding:20px;
+
+overflow:auto;
+
+
+}
+
+
+
+.category{
+
+
+background:#081126;
+
+border:1px solid #006eff55;
+
+color:white;
+
+padding:12px 22px;
+
+border-radius:30px;
+
+white-space:nowrap;
+
+}
+
+
+
+.category.active{
+
+
+background:
+
+linear-gradient(90deg,#006eff,#00d9ff);
+
+box-shadow:
+
+0 0 25px #008cff;
+
+
+}
+
+
+
+
+
+/* SECTION */
+
+
+.section-title{
+
+
+padding:20px;
+
+font-size:25px;
 
 font-weight:800;
 
 
-color:#4da3ff;
-
-
-text-shadow:
-
-
-0 0 15px #1e90ff,
-
-0 0 40px #00ffff;
-
-
-}
-
-
-
-.premium{
-
-
-margin-top:10px;
-
-
-color:#ffd700;
-
-
-font-weight:600;
-
-
-text-shadow:
-
-
-0 0 15px gold;
-
-
 }
 
 
 
 
 
+/* APK GRID */
 
 
-/* ================= CONTAINER ================= */
+#apps{
 
 
-.container{
+display:grid;
+
+grid-template-columns:
+
+repeat(auto-fit,minmax(280px,1fr));
 
 
-width:100%;
-
-
-max-width:1200px;
-
-
-margin:auto;
-
+gap:25px;
 
 padding:20px;
 
@@ -191,19 +274,305 @@ padding:20px;
 
 
 
-/* ================= BANNER ================= */
+/* APK CARD 3D */
 
 
-.banner{
+.app-card{
+
+
+background:
+
+linear-gradient(
+
+145deg,
+
+#081126,
+
+#020617
+
+);
+
+
+border-radius:30px;
+
+
+padding:25px;
+
+
+border:
+
+1px solid #006eff55;
+
+
+box-shadow:
+
+
+0 20px 50px #000,
+
+
+inset 0 0 30px #006eff22;
+
+
+transition:.4s;
+
+
+position:relative;
+
+
+overflow:hidden;
+
+
+}
+
+
+
+.app-card::before{
+
+
+content:"";
+
+position:absolute;
+
+width:150px;
+height:150px;
+
+background:#ffd700;
+
+filter:blur(90px);
+
+right:-50px;
+
+top:-50px;
+
+opacity:.2;
+
+
+}
+
+
+
+.app-card:hover{
+
+
+transform:
+
+translateY(-12px)
+
+rotateX(5deg);
+
+
+box-shadow:
+
+0 0 40px #006eff,
+
+
+0 30px 70px #000;
+
+
+}
+
+
+
+
+
+
+
+.app-icon{
+
+
+width:95px;
+
+height:95px;
+
+border-radius:25px;
+
+object-fit:cover;
+
+
+box-shadow:
+
+0 0 30px #006eff;
+
+
+}
+
+
+
+
+
+.app-name{
+
+
+font-size:24px;
+
+margin-top:15px;
+
+}
+
+
+
+
+
+.dev{
+
+color:#aaa;
+
+}
+
+
+
+
+.info{
 
 
 display:flex;
 
-
-align-items:center;
-
-
 justify-content:space-between;
+
+margin:15px 0;
+
+font-size:13px;
+
+
+}
+
+
+
+
+.badge{
+
+
+padding:7px 14px;
+
+border-radius:20px;
+
+background:#ffd700;
+
+color:#000;
+
+font-weight:bold;
+
+
+}
+
+
+
+
+.description{
+
+
+color:#ccc;
+
+font-size:14px;
+
+min-height:50px;
+
+
+}
+
+
+
+
+
+
+/* DOWNLOAD BUTTON */
+
+
+.download-btn{
+
+
+width:100%;
+
+margin-top:20px;
+
+padding:15px;
+
+
+border:none;
+
+border-radius:25px;
+
+
+background:
+
+linear-gradient(
+
+90deg,
+
+#006eff,
+
+#00d9ff
+
+);
+
+
+color:white;
+
+font-size:16px;
+
+font-weight:bold;
+
+
+cursor:pointer;
+
+
+box-shadow:
+
+0 0 25px #006eff;
+
+
+}
+
+
+
+
+
+.download-btn:hover{
+
+
+background:
+
+linear-gradient(
+
+90deg,
+
+#ffd700,
+
+#ff9900
+
+);
+
+
+color:black;
+
+
+}
+
+
+
+
+
+
+
+/* DOWNLOAD MODAL */
+
+
+#downloadBox{
+
+
+position:fixed;
+
+top:50%;
+
+left:50%;
+
+
+transform:
+
+translate(-50%,-50%);
+
+
+width:320px;
 
 
 padding:30px;
@@ -212,40 +581,56 @@ padding:30px;
 border-radius:30px;
 
 
+background:#050b1c;
+
+
+border:1px solid #006eff;
+
+
+box-shadow:
+
+0 0 50px #006eff;
+
+
+display:none;
+
+
+text-align:center;
+
+
+}
+
+
+
+.progress{
+
+
+height:15px;
+
+background:#111827;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin:20px 0;
+
+
+}
+
+
+
+.bar{
+
+
+height:100%;
+
+width:0%;
+
+
 background:
 
-
-linear-gradient(135deg,#020617,#0b3470,#020617);
-
-
-border:1px solid #ffd700;
-
-
-box-shadow:
-
-
-0 0 35px #1e90ff55;
-
-
-
-}
-
-
-
-.banner h1{
-
-
-font-size:30px;
-
-
-}
-
-
-
-.banner h1 span{
-
-
-color:#ffd700;
+linear-gradient(90deg,#006eff,#ffd700);
 
 
 }
@@ -253,44 +638,18 @@ color:#ffd700;
 
 
 
-.banner p{
+
+footer{
 
 
-margin-top:12px;
+text-align:center;
 
+padding:30px;
 
-opacity:.8;
-
-
-}
-
-
-
-
-.banner img{
-
-
-width:130px;
-
-
-height:130px;
-
-
-border-radius:30px;
-
-
-border:2px solid gold;
-
-
-box-shadow:
-
-
-0 0 30px gold;
+color:#777;
 
 
 }
-
-
 
 
 </style>
@@ -298,11 +657,12 @@ box-shadow:
 </head>
 
 
+
 <body>
 
 
 
-<header>
+<header class="header">
 
 
 <div class="logo">
@@ -312,82 +672,31 @@ box-shadow:
 </div>
 
 
-<div class="premium">
+<p class="subtitle">
 
-👑 PREMIUM ANDROID MARKET
+La marketplace Android SaaS Premium
+
+</p>
+
+
+
+<div class="search-box">
+
+<input id="search"
+
+placeholder="🔍 Rechercher une application...">
 
 </div>
+
 
 
 </header>
 
 
 
-<div class="container">
 
 
-
-<div class="banner">
-
-
-<div>
-
-
-<h1>
-
-Télécharge les
-
-<span>
-
-meilleures Apps
-
-</span>
-
-Android
-
-</h1>
-
-
-<p>
-
-IA • VPN • Jeux • Outils • Applications Premium
-
-</p>
-
-
-</div>
-
-
-<img src="https://i.ibb.co/chckV4z9/Dav-Bot-IA-128x128-4ko.webp">
-
-
-</div>
-<!-- ================= RECHERCHE ================= -->
-
-
-<div class="search-box">
-
-
-<input
-
-id="search"
-
-type="text"
-
-placeholder="🔎 Rechercher une application...">
-
-
-</div>
-
-
-
-
-
-
-<!-- ================= CATEGORIES ================= -->
-
-
-<div class="categories">
+<nav class="menu">
 
 
 <button class="category active">
@@ -406,14 +715,14 @@ IA
 
 <button class="category">
 
-VPN
+Jeux
 
 </button>
 
 
 <button class="category">
 
-Jeux
+VPN
 
 </button>
 
@@ -425,28 +734,17 @@ Outils
 </button>
 
 
-<button class="category">
 
-Social
-
-</button>
-
-
-</div>
+</nav>
 
 
 
 
 
 
-<!-- ================= TITRE ================= -->
+<h2 class="section-title">
 
-
-<h2 class="title">
-
-
-🔥 Applications disponibles
-
+🔥 Applications populaires
 
 </h2>
 
@@ -454,320 +752,48 @@ Social
 
 
 
-<!-- ================= LISTE APK ================= -->
+<section id="apps">
 
+</section>
 
-<div id="apps" class="apps-grid">
 
 
-<!-- Les APK seront ajoutés par app.js -->
 
 
-</div>
 
 
+<div id="downloadBox">
 
 
+<h2>
 
-
-
-
-
-<style>
-
-
-
-/* ================= SEARCH ================= */
-
-
-
-.search-box{
-
-
-margin-top:25px;
-
-
-}
-
-
-
-.search-box input{
-
-
-width:100%;
-
-
-padding:16px 20px;
-
-
-border-radius:25px;
-
-
-background:#020617;
-
-
-border:1px solid #1e90ff;
-
-
-color:white;
-
-
-outline:none;
-
-
-font-size:15px;
-
-
-box-shadow:
-
-
-0 0 20px #1e90ff44;
-
-
-}
-
-
-
-
-.search-box input:focus{
-
-
-box-shadow:
-
-
-0 0 30px #1e90ff;
-
-
-}
-
-
-
-
-
-
-
-
-/* ================= CATEGORIES ================= */
-
-
-.categories{
-
-
-display:flex;
-
-
-gap:12px;
-
-
-overflow-x:auto;
-
-
-margin:25px 0;
-
-
-}
-
-
-
-.categories::-webkit-scrollbar{
-
-
-display:none;
-
-
-}
-
-
-
-
-.category{
-
-
-padding:10px 20px;
-
-
-border-radius:30px;
-
-
-background:#081126;
-
-
-border:1px solid #1e90ff;
-
-
-color:#4da3ff;
-
-
-cursor:pointer;
-
-
-white-space:nowrap;
-
-
-}
-
-
-
-
-.category:hover,
-.category.active{
-
-
-background:#ffd700;
-
-
-color:#020617;
-
-
-border-color:#ffd700;
-
-
-box-shadow:
-
-
-0 0 20px gold;
-
-
-}
-
-
-
-
-
-/* ================= TITLE ================= */
-
-
-.title{
-
-
-margin:30px 0 20px;
-
-
-color:#ffd700;
-
-
-text-shadow:
-
-
-0 0 15px gold;
-
-
-}
-
-
-
-
-
-
-/* ================= APK GRID ================= */
-
-
-.apps-grid{
-
-
-display:grid;
-
-
-grid-template-columns:
-
-
-repeat(auto-fit,minmax(280px,1fr));
-
-
-gap:20px;
-
-
-}
-
-
-
-</style>
-<!-- ================= POPUP DETAILS APK ================= -->
-
-
-<div id="detailsModal" class="modal hidden">
-
-
-<div class="modal-content">
-
-
-<img id="detailIcon" class="detail-icon">
-
-
-
-<h2 id="detailName">
-
-Nom Application
+⚡ Téléchargement
 
 </h2>
 
 
+<p id="downloadText">
 
-<div id="detailStars" class="stars">
-
-★★★★★
-
-</div>
-
-
-
-<p id="detailDesc">
-
-Description
+Préparation...
 
 </p>
 
 
 
+<div class="progress">
 
-<div class="tags">
+<div class="bar" id="bar">
 
-
-<span id="detailVersion">
-
-Version
-
-</span>
-
-
-<span id="detailSize">
-
-Taille
-
-</span>
-
-
-<span id="detailCategory">
-
-Catégorie
-
-</span>
-
+</div>
 
 </div>
 
 
+<p>
 
+DAVBOT STORE ENGINE
 
-
-<button id="detailDownload" class="download-btn">
-
-📥 Télécharger APK
-
-</button>
-
-
-
-
-<button onclick="closeDetails()" class="close-btn">
-
-Fermer
-
-</button>
-
-
-
-</div>
+</p>
 
 
 </div>
@@ -777,435 +803,21 @@ Fermer
 
 
 
+<footer>
 
-<style>
 
+© 2026 DAVBOT APK STORE
 
+<br>
 
-/* ================= APK CARD ================= */
+Blue • Black • Gold Technology
 
 
-.app-card{
+</footer>
 
 
-background:
-
-linear-gradient(145deg,#020617,#081126);
-
-
-padding:20px;
-
-
-border-radius:30px;
-
-
-border:1px solid #ffd70055;
-
-
-box-shadow:
-
-
-0 0 25px #1e90ff33;
-
-
-transition:.3s;
-
-
-}
-
-
-
-
-.app-card:hover{
-
-
-transform:translateY(-7px);
-
-
-box-shadow:
-
-
-0 0 30px #1e90ff,
-
-0 0 25px gold;
-
-
-}
-
-
-
-
-
-.app-top{
-
-
-display:flex;
-
-
-align-items:center;
-
-
-gap:15px;
-
-
-}
-
-
-
-
-
-.app-icon{
-
-
-width:85px;
-
-
-height:85px;
-
-
-border-radius:25px;
-
-
-object-fit:cover;
-
-
-border:2px solid gold;
-
-
-box-shadow:
-
-
-0 0 20px gold;
-
-
-}
-
-
-
-
-.app-card h3{
-
-
-color:#4da3ff;
-
-
-font-size:21px;
-
-
-}
-
-
-
-.dev{
-
-
-font-size:13px;
-
-
-opacity:.7;
-
-
-}
-
-
-
-
-.description{
-
-
-margin:15px 0;
-
-
-line-height:1.5;
-
-
-opacity:.85;
-
-
-}
-
-
-
-
-
-.stars{
-
-
-color:#ffd700;
-
-
-font-size:20px;
-
-
-margin:10px 0;
-
-
-}
-
-
-
-
-
-.badges span,
-.tags span{
-
-
-display:inline-block;
-
-
-padding:6px 12px;
-
-
-margin:5px;
-
-
-border-radius:20px;
-
-
-background:#081126;
-
-
-border:1px solid #1e90ff;
-
-
-color:#4da3ff;
-
-
-font-size:12px;
-
-
-}
-
-
-
-
-
-.download-btn{
-
-
-width:100%;
-
-
-margin-top:15px;
-
-
-padding:14px;
-
-
-border-radius:25px;
-
-
-background:#ffd700;
-
-
-color:#020617;
-
-
-font-weight:bold;
-
-
-border:none;
-
-
-cursor:pointer;
-
-
-box-shadow:
-
-
-0 0 20px gold;
-
-
-}
-
-
-
-
-
-/* ================= MODAL ================= */
-
-
-
-.modal{
-
-
-position:fixed;
-
-
-inset:0;
-
-
-background:#000b;
-
-
-display:flex;
-
-
-align-items:center;
-
-
-justify-content:center;
-
-
-z-index:999;
-
-
-}
-
-
-
-
-
-.hidden{
-
-
-display:none;
-
-
-}
-
-
-
-
-
-.modal-content{
-
-
-width:90%;
-
-
-max-width:420px;
-
-
-background:#020617;
-
-
-padding:30px;
-
-
-border-radius:30px;
-
-
-text-align:center;
-
-
-border:1px solid gold;
-
-
-box-shadow:
-
-
-0 0 40px #1e90ff;
-
-
-}
-
-
-
-
-
-.detail-icon{
-
-
-width:110px;
-
-
-height:110px;
-
-
-border-radius:30px;
-
-
-border:2px solid gold;
-
-
-box-shadow:
-
-
-0 0 25px gold;
-
-
-}
-
-
-
-
-
-.modal-content h2{
-
-
-color:#4da3ff;
-
-
-margin:15px;
-
-
-}
-
-
-
-
-.close-btn{
-
-
-margin-top:15px;
-
-
-padding:12px 25px;
-
-
-border-radius:25px;
-
-
-background:#020617;
-
-
-color:white;
-
-
-border:1px solid #1e90ff;
-
-
-cursor:pointer;
-
-
-}
-
-
-</style>
-
-
-
-
-
-
-<script>
-
-
-function closeDetails(){
-
-
-document
-
-.getElementById("detailsModal")
-
-.classList.add("hidden");
-
-
-}
-
-
-</script>
-
-
-
-
-
-<script type="module" src="app.js"></script>
-
-
+<script src="app.js"></script>
 
 </body>
-
 
 </html>
